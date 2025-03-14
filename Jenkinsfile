@@ -32,24 +32,13 @@ pipeline {
             }
         }
     }
-
+    
     post {
-        always {
-            emailext(
-                subject: "Pipeline status: ${currentBuild.result}",
-                body: '''<html>
-                           <body>
-                           <p>Build Status: ${currentBuild.result}</p>
-                           <p>Build Number: ${currentBuild.number}</p>
-                           <p>Check the <a href="${env.BUILD_URL}">console output</a>.</p>
-                           </body>
-                        </html>''',
-                to: 'sivadevops24@gmail.com',
-                from: 'sivadevops24@example.com',
-                replyTo: 'sivadevops24@example.com',
-                mimeType: 'text/html'
-            )
-            cleanWs()
+    always {
+        mail to: 'sivadevops24@gmail.com',
+             subject: "Pipeline status: ${currentBuild.result}",
+             body: "Build status: ${currentBuild.result}\nBuild number: ${currentBuild.number}\nCheck console output: ${env.BUILD_URL}"
+        cleanWs()
         }
     }
 }
